@@ -8,7 +8,7 @@ import reportWebVitals from './reportWebVitals';
 import prom from 'promjs';
 import sendMetrics from './SendMetrics';
 import { getFCP, getTTFB } from 'web-vitals';
-import { reportHandlerFCP } from './ReportHandler';
+import { reportHandlerFCP, reportHandlerTTFB } from './ReportHandler';
 
 getFCP(console.log);
 getTTFB(console.log);
@@ -24,6 +24,8 @@ console.log(sendMetrics(registry.metrics()));
 
 export const FCP = registry.create('gauge', 'FCP_gauge', 'gauge for FCP');
 getFCP(reportHandlerFCP);
+export const TTFB = registry.create('gauge', 'TTFB_gauge', 'gauge for TTFB');
+getTTFB(reportHandlerTTFB);
 
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
 const rootElement = document.getElementById('root');

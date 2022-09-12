@@ -1,5 +1,5 @@
 ﻿import sendMetrics from "./SendMetrics";
-import { FCP, registry } from './index';
+import { FCP, TTFB, registry } from './index';
 
 
 function reportHandlerFCP(metric) {
@@ -9,4 +9,12 @@ function reportHandlerFCP(metric) {
     sendMetrics(registry.metrics());
 }
 
-export { reportHandlerFCP };
+function reportHandlerTTFB(metric) {
+
+    console.log(metric.value);
+    TTFB.set(metric.value);
+    sendMetrics(registry.metrics());
+}
+
+
+export { reportHandlerFCP, reportHandlerTTFB };
