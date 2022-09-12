@@ -5,7 +5,13 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
-import prom from promjs;
+import prom from 'promjs';
+
+const registry = prom();
+const appStartCount = registry.create('counter', 'app_start_count', 'counter for app start');
+
+appStartCount.inc();
+console.log(registry.metrics());
 
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
 const rootElement = document.getElementById('root');
