@@ -5,6 +5,8 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
+
+// METRICS
 import prom from 'promjs';
 import sendMetrics from './SendMetrics';
 import { getFCP, getTTFB } from 'web-vitals';
@@ -17,7 +19,6 @@ export const registry = prom();
 
 //counter test
 const appStartCount = registry.create('counter', 'app_start_count', 'counter for app start');
-
 appStartCount.inc();
 console.log(sendMetrics(registry.metrics()));
 //-----
@@ -26,16 +27,18 @@ export const FCP = registry.create('gauge', 'FCP_gauge', 'gauge for FCP');
 getFCP(reportHandlerFCP);
 export const TTFB = registry.create('gauge', 'TTFB_gauge', 'gauge for TTFB');
 getTTFB(reportHandlerTTFB);
+//METRICS
 
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
 
 root.render(
-  <BrowserRouter basename={baseUrl}>
-    <App />
-  </BrowserRouter>);
+    <BrowserRouter basename={baseUrl}>
+        <App />
+    </BrowserRouter>);
 
+console.log(window.performance);
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://cra.link/PWA
