@@ -6,12 +6,13 @@ import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import prom from 'promjs';
+import sendMetrics from './SendMetrics';
 
 const registry = prom();
 const appStartCount = registry.create('counter', 'app_start_count', 'counter for app start');
 
 appStartCount.inc();
-console.log(registry.metrics());
+console.log(sendMetrics(registry.metrics()));
 
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
 const rootElement = document.getElementById('root');
