@@ -31,14 +31,15 @@ appStartCount.inc();
 console.log(sendMetrics(registry.metrics()));
 //-----
 
-export const FCP = registry.create('histogram', 'FCP', 'FCP', [
+export const FCP = registry.create('histogram', 'react-metrics-FCP', 'FCP', [
     500,
     700,
     900,
     1100
 ]);
 getFCP(reportHandlerFCP);
-export const TTFB = registry.create('histogram', 'TTFB', 'TTFB', [
+
+export const TTFB = registry.create('histogram', 'react-metrics-TTFB', 'TTFB', [
     500,
     700,
     900,
@@ -46,11 +47,35 @@ export const TTFB = registry.create('histogram', 'TTFB', 'TTFB', [
 ]);
 getTTFB(reportHandlerTTFB);
 
+const loadTimeMetrics = registry.create('histogram', 'react-metrics-load-time', 'load time', [
+    500,
+    700,
+    900,
+    1100
+]);
 const loadTime = window.performance.timing.domContentLoadedEventEnd - window.performance.timing.navigationStart;
+loadTimeMetrics.observe(loadTime);
+
+const domainLookupMetrics = registry.create('histogram', 'react-metrics-domain-lookup', 'domain lookup', [
+    500,
+    700,
+    900,
+    1100
+]);
 const domainLookup = window.performance.timing.domainLookupEnd - window.performance.timing.domainLookupStart;
+domainLookupMetrics.observe(domainLookup);
+
+const TTIMetrics = registry.create('histogram', 'react-metrics-TTI', 'TTI', [
+    500,
+    700,
+    900,
+    1100
+]);
 const TTI = ttiPolyfill.getFirstConsistentlyInteractive();
+TTIMetrics.observe(TTI);
 
 console.log(window.performance);
+sendMetrics(registry.metrics());
 
 
 // METRICS (END)
