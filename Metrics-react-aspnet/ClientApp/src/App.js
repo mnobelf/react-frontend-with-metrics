@@ -53,8 +53,19 @@ const loadTimeMetrics = registry.create('histogram', 'react-metrics-load-time', 
     900,
     1100
 ]);
-const loadTime = window.performance.timing.domContentLoadedEventEnd - window.performance.timing.navigationStart;
-loadTimeMetrics.observe(loadTime);
+/*
+const a = await window.performance.timing.domContentLoadedEventEnd;
+console.log(a);
+*/
+var loadTime = 0;
+setTimeout(function () {
+    loadTime = window.performance.timing.domContentLoadedEventEnd - window.performance.timing.navigationStart;
+    console.log('loadtime ' + loadTime);
+    loadTimeMetrics.observe(loadTime);
+    sendMetrics(registry.metrics())
+}, 500);
+
+
 
 const domainLookupMetrics = registry.create('histogram', 'react-metrics-domain-lookup', 'domain lookup', [
     500,
@@ -63,7 +74,9 @@ const domainLookupMetrics = registry.create('histogram', 'react-metrics-domain-l
     1100
 ]);
 const domainLookup = window.performance.timing.domainLookupEnd - window.performance.timing.domainLookupStart;
+console.log('domainLookup ' + domainLookup);
 domainLookupMetrics.observe(domainLookup);
+sendMetrics(registry.metrics());
 
 const TTIMetrics = registry.create('histogram', 'react-metrics-TTI', 'TTI', [
     500,
@@ -71,12 +84,13 @@ const TTIMetrics = registry.create('histogram', 'react-metrics-TTI', 'TTI', [
     900,
     1100
 ]);
-const TTI = ttiPolyfill.getFirstConsistentlyInteractive();
+const TTI = ttiPolyfill.getFirstConsistentlyInteractive().then((tti) => {
+    console.log('TTI ' + tti);
+});
 TTIMetrics.observe(TTI);
-
-console.log(window.performance);
 sendMetrics(registry.metrics());
 
+console.log(window.performance);
 
 // METRICS (END)
 
