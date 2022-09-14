@@ -18,14 +18,24 @@ getTTFB(console.log);
 export const registry = prom();
 
 //counter test
-const appStartCount = registry.create('counter', 'app_start_count', 'counter for app start');
+const appStartCount = registry.create('counter', 'app_start', 'app start');
 appStartCount.inc();
 console.log(sendMetrics(registry.metrics()));
 //-----
 
-export const FCP = registry.create('gauge', 'FCP_gauge', 'gauge for FCP');
+export const FCP = registry.create('histogram', 'FCP', 'FCP', [
+    500,
+    700,
+    900,
+    1100
+]);
 getFCP(reportHandlerFCP);
-export const TTFB = registry.create('gauge', 'TTFB_gauge', 'gauge for TTFB');
+export const TTFB = registry.create('histogram', 'TTFB', 'TTFB', [
+    500,
+    700,
+    900,
+    1100
+]);
 getTTFB(reportHandlerTTFB);
 //METRICS
 
