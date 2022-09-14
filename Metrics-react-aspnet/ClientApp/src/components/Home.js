@@ -7,7 +7,7 @@ export class Home extends Component {
     return (
       <div>
         <h1>Hello, world!</h1>
-        <p>simple metrics implementation using react front-end</p>
+        <p>Simple metrics implementation using react front-end.</p>
       </div>
     );
   }
