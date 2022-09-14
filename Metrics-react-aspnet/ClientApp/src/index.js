@@ -6,39 +6,6 @@ import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 
-// METRICS
-import prom from 'promjs';
-import sendMetrics from './SendMetrics';
-import { getFCP, getTTFB } from 'web-vitals';
-import { reportHandlerFCP, reportHandlerTTFB } from './ReportHandler';
-
-getFCP(console.log);
-getTTFB(console.log);
-
-export const registry = prom();
-
-//counter test
-const appStartCount = registry.create('counter', 'app_start', 'app start');
-appStartCount.inc();
-console.log(sendMetrics(registry.metrics()));
-//-----
-
-export const FCP = registry.create('histogram', 'FCP', 'FCP', [
-    500,
-    700,
-    900,
-    1100
-]);
-getFCP(reportHandlerFCP);
-export const TTFB = registry.create('histogram', 'TTFB', 'TTFB', [
-    500,
-    700,
-    900,
-    1100
-]);
-getTTFB(reportHandlerTTFB);
-//METRICS
-
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
