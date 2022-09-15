@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { fetchDataMetrics, registry } from '.././App';
+import sendMetrics from '.././SendMetrics';
 
 export class FetchData extends Component {
   static displayName = FetchData.name;
@@ -8,9 +10,15 @@ export class FetchData extends Component {
     this.state = { forecasts: [], loading: true };
   }
 
-  componentDidMount() {
-    this.populateWeatherData();
-  }
+    componentDidMount() {
+        const before = Date.now();
+        this.populateWeatherData().then(() => {
+            const after = Date.now();
+            console.log(after - before);
+            fetchDataMetrics.observe(after - before);
+            sendMetrics(registry.metrics());
+        });
+    }
 
   static renderForecastsTable(forecasts) {
     return (

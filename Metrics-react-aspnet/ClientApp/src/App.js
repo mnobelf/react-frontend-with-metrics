@@ -63,7 +63,7 @@ setTimeout(function () {
     console.log('loadtime ' + loadTime);
     loadTimeMetrics.observe(loadTime);
     sendMetrics(registry.metrics())
-}, 500);
+}, 0);
 
 
 
@@ -91,6 +91,13 @@ TTIMetrics.observe(TTI);
 sendMetrics(registry.metrics());
 
 console.log(window.performance);
+
+export const fetchDataMetrics = registry.create('histogram', 'react-metrics-fetch-data', 'fetch data metrics', [
+    500,
+    700,
+    900,
+    1100
+]);
 
 // METRICS (END)
 
