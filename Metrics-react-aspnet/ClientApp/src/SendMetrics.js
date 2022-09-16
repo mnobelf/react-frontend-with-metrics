@@ -1,6 +1,6 @@
 ﻿async function sendMetrics(metrics: any) {
     try {
-        const response = await fetch('http://localhost:9091/metrics', {
+        const response = await fetch('http://localhost/metrics', {
             method: 'POST',
             mode: 'no-cors',
             body: metrics,

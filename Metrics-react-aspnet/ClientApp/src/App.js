@@ -28,7 +28,6 @@ export const registry = prom();
 //counter test
 const appStartCount = registry.create('counter', 'app_start', 'app start');
 appStartCount.inc();
-console.log(sendMetrics(registry.metrics()));
 //-----
 
 export const FCP = registry.create('histogram', 'react-metrics-FCP', 'FCP', [
@@ -62,7 +61,7 @@ setTimeout(function () {
     loadTime = window.performance.timing.domContentLoadedEventEnd - window.performance.timing.navigationStart;
     console.log('loadtime ' + loadTime);
     loadTimeMetrics.observe(loadTime);
-    sendMetrics(registry.metrics())
+//    console.log(registry.metrics());
 }, 0);
 
 
@@ -76,7 +75,6 @@ const domainLookupMetrics = registry.create('histogram', 'react-metrics-domain-l
 const domainLookup = window.performance.timing.domainLookupEnd - window.performance.timing.domainLookupStart;
 console.log('domainLookup ' + domainLookup);
 domainLookupMetrics.observe(domainLookup);
-sendMetrics(registry.metrics());
 
 const TTIMetrics = registry.create('histogram', 'react-metrics-TTI', 'TTI', [
     500,
@@ -88,7 +86,6 @@ const TTI = ttiPolyfill.getFirstConsistentlyInteractive().then((tti) => {
     console.log('TTI ' + tti);
 });
 TTIMetrics.observe(TTI);
-sendMetrics(registry.metrics());
 
 console.log(window.performance);
 
@@ -99,6 +96,12 @@ export const fetchDataMetrics = registry.create('histogram', 'react-metrics-fetc
     1100
 ]);
 
+setTimeout(() => {
+    console.log(registry.metrics());
+    sendMetrics(registry.metrics()).then(() => {
+        registry.reset();
+    });
+}, 1000);
 // METRICS (END)
 
 export default class App extends Component {
